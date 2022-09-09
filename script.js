@@ -1,66 +1,48 @@
-function inputele(tagname, attrname, attrvalue) {
-  var ele = document.createElement(tagname);
-  for (let i in attrname) {
-    ele.setAttribute(attrname[i], attrvalue[i]);
-  }
-  return ele;
-}
-function linebreak(element) {
-  var ele = document.createElement(element);
-  return ele;
-}
-function eleWithcontent(tagname, attrname, attrvalue, content) {
-  var ele = document.createElement(tagname);
-  for (let i in attrname) {
-    ele.setAttribute(attrname[i], attrvalue[i]);
-  }
-  ele.innerHTML = content;
-  return ele;
-}
-var form = inputele("form", ["method"], [""]);
-var label = eleWithcontent("label", ["for"], ["fName"], "FirstName:");
-var fname = inputele("input", ["id", "type"], ["fName", "text"]);
+// var color = prompt("Enter the color!!!!");
+// var p1 = new Promise((resolve, reject) => {
+//     if (color == "red")
+//         setTimeout(() => resolve("True"), 5000);
+//     else
+//         reject("False");
+// })
+// console.log(p1);
+// p1.then((data) => console.log(data + "data")).catch((err) => console.log(err + "err"));
 
-var label2 = eleWithcontent("label", ["for"], ["mName"], "MiddleName:");
-var mname = inputele("input", ["id", "type"], ["mName", "text"]);
+let countries_data = fetch("https://restcountries.com/v2/all");
+countries_data.then((data) => data.json()).then((details) => {
+    for (let i = 0; i < details.length; i += 3) {
+        var div = document.createElement("div");
+        div.innerHTML = `
+        <div class="container-fluid" id="about">
+        <div class="row p-5 ">
+            <div class="col-12">
+        <div class="card-deck">
+        <div class="card">
+          <img src="${details[i].flag}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">${details[i].name}</h5>
+            <p class="card-text">${details[i].capital}</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="${details[i+1].flag}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">${details[i+1].name}</h5>
+            <p class="card-text">${details[i+2].capital}</p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="${details[i+2].flag}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">${details[i+2].name}</h5>
+            <p class="card-text">${details[i+2].capital}</p>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>`;
+        document.body.append(div);
+    }
 
-var label1 = eleWithcontent("label", ["for"], ["lName"], "LastName:");
-var lname = inputele("input", ["id", "type"], ["lName", "text"]);
-
-var label3 = eleWithcontent("label", ["for"], ["email"], "EMail");
-var email = inputele("input", ["id", "type"], ["email", "email"]);
-
-var label4 = eleWithcontent("label", ["for"], ["contact"], "Contact");
-var contact = inputele("input", ["id", "type"], ["contact", "number"]);
-
-var br = linebreak("br");
-var br1 = linebreak("br");
-var br2 = linebreak("br");
-var br3 = linebreak("br");
-var br4 = linebreak("br");
-var br5 = linebreak("br");
-var br6 = linebreak("br");
-var br7 = linebreak("br");
-var br8 = linebreak("br");
-form.append(
-  label,
-  br,
-  fname,
-  br1,
-  label1,
-  br2,
-  mname,
-  br3,
-  label2,
-  br4,
-  lname,
-  br5,
-  label3,
-  br6,
-  email,
-  br7,
-  label4,
-  br8,
-  contact
-);
-document.body.append(form);
+}).catch((err) => console.log("Error Occured"));
